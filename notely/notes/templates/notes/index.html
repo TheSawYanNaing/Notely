@@ -1,0 +1,63 @@
+{% extends "notes/layout.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static "notes/css/index.css" %}">
+{% endblock %}
+
+{% block title %}
+    Notely
+{% endblock %}
+
+{% block body %}
+    <div id="particles-js">
+        <div class="hero-section">
+            <h1>Your Notes, Anywhere, Anytime</h1>
+            <p>
+                Experience the freedom of accessing your notes from any device, with the assurance of complete privacy and a 
+                user-friendly interface.
+            </p>
+            <a href="">Create Note</a>
+        </div>
+    </div>
+
+    <div class="adding">
+        <h2>Adding Notes</h2>
+        <p>Adding notes is simple and intuitive. Follow these steps to get started.</p>
+
+        <div class="steps">
+            <div>
+                <img src="{% static 'notes/assets/one.jpg' %}" alt="create"/>
+                <h3>Create Note</h3>
+                <p>Click <span>Create</span> to create a new note. Start writing immediately with our easy-to-use editor.</p>
+            </div>
+            <div>
+                <img src="{% static 'notes/assets/two.jpg' %}" alt="organize" />
+                <h3>Organize Notes</h3>
+                <p>
+                    Add <span>Category</span> to keep your notes organized and easily searchable.
+                </p>
+            </div>
+            <div>
+                <img src="{% static 'notes/assets/three.jpg' %}" alt="access">
+                <h3>Access Anywhere</h3>
+                <p>
+                    Your notes are synced across all your devices, so you can access them anytime, anywhere.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="usage-info">
+        <h2>✨ Elevate Your Notes with Markdown</h2>
+        <p>
+            Your words deserve more than plain text.
+            <strong>Bold your thoughts</strong>,<em>italicize your ideas</em>,
+            structure with headers, lists, and even embed code — 
+            all with the magic of <span>GitHub-flavored Markdown</span>.
+        </p>
+        <p>It's powerful, it's simple nad it's made just for you.</p>
+        <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank">Learn Markdown</a>
+    </div>
+    <script src="{% static 'notes/js/particles.js' %}"></script>
+    <script src="{% static 'notes/js/app.js' %}"></script>
+{% endblock %}
