@@ -134,4 +134,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # If you keep your app static files here
 ]
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://notely-production-6749.up.railway.app",
+]
