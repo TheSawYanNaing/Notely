@@ -1,0 +1,22 @@
+{% extends "notes/layout.html" %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'notes/css/category.css' %}">
+{% endblock %}
+{% block title %}
+    Notes
+{% endblock %}
+
+{% block body %}
+    <h2>Your Notes for <span>{{category}}</span></h2>
+    <input type="search" name="q" id="q" placeholder="Search Query">
+    <ul class="category-list">
+        {% for note in notes %}
+            <li><a class="note" href="{% url 'notes:content' category note.title %}">{{note.title}}</a></li>
+        {% endfor %}
+    </ul>
+
+    <script src="{% static 'notes/js/note.js' %}"></script>
+{% endblock %}

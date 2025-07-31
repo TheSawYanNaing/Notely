@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.db import IntegrityError
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout, authenticate, decorators
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+import markdown
 
 from django import forms
-from .models import User
+from .models import User, Note
 
 import re
 from validate_email import validate_email
@@ -95,6 +96,22 @@ class LoginForm(forms.Form):
 
         return password
     
+    
+# for creating note
+class NoteForm(forms.Form):
+       title = forms.CharField(label="Title", widget=forms.TextInput(attrs={
+           "placeholder" : "State",
+           "autocomplete" : "off"
+       })) 
+       category = forms.CharField(label="Category", widget=forms.TextInput(attrs={
+           "placeholder" : "React",
+           "autocomplete" : "off"
+       }))
+       content = forms.CharField(label="Content", widget=forms.Textarea(attrs={
+           "placeholder" : "React is a js library",
+           "autocomplete" : "off"
+       }))
+    
 # Create your views here.
 # Main Page
 def index(request):
@@ -180,6 +197,103 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("notes:register"))
 
+@decorators.login_required
 # For Creating note
 def create(request):
-    pass
+    if request.method == "GET":
+        return render(request, "notes/create.html", {
+            "form" : NoteForm()
+        })
+        
+    # for get method
+    form = NoteForm(request.POST)
+    
+    if form.is_valid():
+        category = form.cleaned_data.get("category")
+        title = form.cleaned_data.get("title")
+        content = form.cleaned_data.get("content")
+        
+        note = Note(owner=request.user, category=category, title=title, content=content)
+        note.save()
+        
+        return HttpResponseRedirect(reverse("notes:note"))
+    
+    return render(request, "notes/create.html", {
+        "form" : form
+    })
+
+@decorators.login_required
+# For viewsing category
+def note(request):
+    
+    # Getting all the category of user
+    categories = Note.objects.filter(owner=request.user).values_list("category", flat=True).distinct()
+    
+    return render(request, "notes/category.html", {
+        "categories" : list(categories)
+    })
+    
+# for viewing actual title
+@decorators.login_required
+def category(request, category):
+    noteLists = Note.objects.filter(owner=request.user, category=category)
+    
+    if not noteLists:
+        return HttpResponseRedirect(reverse("notes:note"))
+    
+    return render(request, "notes/notes.html", {
+        "notes" : noteLists,
+        "category" : category
+    })
+
+# for viewing content of the note
+@decorators.login_required
+def content(request, category, title):
+    note = Note.objects.filter(owner=request.user, category=category, title=title).first()
+    
+    if not note:
+        return HttpResponseRedirect(reverse("notes:note"))
+    
+    return render(request, "notes/content.html", {
+        "note" : note,
+        "content" : markdown.markdown(note.content)
+    })
+    
+# For editing
+@decorators.login_required
+def edit(request, category, title):
+    if request.method == "GET":
+        note = Note.objects.filter(owner=request.user, category=category, title=title).first()
+        
+        if not note:
+            return HttpResponseRedirect(reverse("notes:note"))
+        
+        return render(request, "notes/edit.html", {
+            "note" : note
+        })
+    
+    # for post method
+    form = NoteForm(request.POST)
+    
+    if form.is_valid():
+        content = form.cleaned_data.get("content")
+        note = Note.objects.filter(owner=request.user, category=category,title=title).first()
+        note.content = content
+        note.save()
+        return HttpResponseRedirect(reverse("notes:content", args=[category, title]))
+
+
+# for deletiong
+@decorators.login_required
+def delete(request, category, title):
+    
+    note = Note.objects.filter(owner=request.user, category=category, title=title).first()
+    
+    if not note:
+        return HttpResponseRedirect(reverse("notes:note"))
+    
+    note.delete()
+    
+    return HttpResponseRedirect(reverse("notes:category", args=[category]))
+    
+    

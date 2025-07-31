@@ -1,0 +1,32 @@
+{% extends "notes/layout.html" %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'notes/css/create.css' %}">
+{% endblock %}
+{% block title %}
+    Edit {{note.title}}
+{% endblock %}
+
+{% block body %}
+    <div class="create">
+        <h2>Edit {{note.title}}</h2>
+        <form action="{% url 'notes:edit' note.category note.title %}" method="POST" class="create-form">
+            {% csrf_token %}
+            <div class="category">
+                <label for="category">Category</label>
+                <input type="text" name="category" id="category" readonly value={{note.category}}>
+            </div>
+            <div class="title">
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" readonly value={{note.title}}>
+            </div>
+            <div class="content">
+                <label for="content">Content</label>
+                <textarea name="content" id="content" rows="6">{{note.content}}</textarea>
+            </div>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+{% endblock %}

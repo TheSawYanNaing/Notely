@@ -1,0 +1,24 @@
+{% extends "notes/layout.html" %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'notes/css/category.css' %}">
+{% endblock %}
+{% block title %}
+    Notes
+{% endblock %}
+
+{% block body %}
+    <h2>Your Note Categories</h2>
+    <input type="search" name="q" id="q" placeholder="Search Query">
+    <ul class="category-list">
+        {% for category in categories %}
+            <li><a class="category" href="{% url 'notes:category' category %}">{{category}}</a></li>
+        {% empty %}
+            <li class="warning">You don't have any note currently.Add some <a href="{% url 'notes:create' %}">Here</a></li>
+        {% endfor %}
+    </ul>
+
+    <script src="{% static 'notes/js/category.js' %}"></script>
+{% endblock %}

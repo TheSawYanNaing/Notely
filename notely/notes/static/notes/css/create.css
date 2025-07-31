@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Be Vietnam Pro", sans-serif;
+}
+
+:root 
+{
+    --background : #f9fafb;
+    --text : #2c3e50;
+    --secondText : #5d6d7e;
+    --note : #e0f7fa;
+    --hightlight : #ff6b6b;
+    --success : #27ae60;
+    --accent : #f1c50f;
+    --border : #95a5a6;
+    --form : #359EFF;
+}
+
+body 
+{
+    background-color: var(--background);
+}
+
+.create 
+{
+    width: 90%;
+    margin: 30px auto;
+    text-align: center;
+}
+
+.create h2 
+{
+    margin: 20px 0px;
+}
+
+.create-form input,
+.create-form textarea 
+{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: var(--form);
+    border-radius: 10px;
+}
+
+.create-form textarea
+{
+    resize: vertical;
+}
+
+.create-form 
+{
+    display: flex;
+    flex-flow: column;
+}
+
+.create-form > div
+{
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    gap: 5px;
+    margin: 20px 0px;
+}
+
+.create-form input:focus,
+.create-form textarea:focus
+{
+    outline: none;
+    box-shadow: 0px 0px 4px 1px var(--border);
+}
+
+.create-form button 
+{
+    width: 100px;
+    padding: 5px;
+    background-color: var(--text);
+    color: var(--background);
+    border-radius: 10px;
+    transition: all 0.3s linear;
+    cursor: pointer;
+    border: none;
+}
+
+.create-form button:hover 
+{
+    background-color: var(--success);
+    color: var(--text);
+}

@@ -8,7 +8,7 @@ menuBar.addEventListener("click", function()
 
     if (height === 0)
     {
-        menuContainer.style.height = "78px";
+        menuContainer.style.height = "130px";
     }
 
     else 
