@@ -1,0 +1,44 @@
+{% extends "notes/layout.html" %}
+
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'notes/css/register.css' %}">
+{% endblock %}
+
+{% block title %}
+    Login 
+{% endblock %}
+
+{% block body %}
+    <div class="register">
+        <h1>Login</h1>
+        <form action="{% url 'notes:login' %}" method="POST" class="register-form">
+            {% csrf_token %}
+            <div clas="email">
+                {{form.email.label_tag}}
+                {{form.email}}
+                {% for error in form.email.errors %}
+                    <span>{{error}}</span>
+                {% endfor %}
+            </div>
+
+            <div class="password">
+                {{form.password.label_tag}}
+                {{form.password}}
+                {% for error in form.password.errors %}
+                    <span>{{error}}</span>
+                {% endfor %}
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        {% if message %}
+            <p class="warning">{{message}}</p>
+        {% endif %}
+        <p class="info">
+            Don't have an account? Register <a href="{% url 'notes:register' %}">Here</a>
+        </p>
+    </div>
+    {% comment %} <script src="{% static 'notes/js/login.js' %}"></script> {% endcomment %}
+{% endblock %}

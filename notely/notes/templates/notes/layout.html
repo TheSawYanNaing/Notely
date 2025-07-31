@@ -31,11 +31,11 @@
             <nav class="authentication-bar">
                 <ul>
                     {% if request.user.is_authenticated %}
-                        <li><a href="#">Logout</a></li>
+                        <li><a href="{% url 'notes:logout' %}">Logout</a></li>
                         <li>{{request.user.username}}</li>
                     {% else %}
-                        <li><a href="#">Register</a></li>
-                        <li><a href="#">Login</a></li>
+                        <li><a href="{% url 'notes:register' %}">Register</a></li>
+                        <li><a href="{% url 'notes:login' %}">Login</a></li>
                     {% endif %}
                 </ul>
             </nav>
