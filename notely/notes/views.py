@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 from django import forms
-from .models import User
+from .models import User, Note
 
 import re
 from validate_email import validate_email
@@ -95,6 +95,22 @@ class LoginForm(forms.Form):
 
         return password
     
+    
+# for creating note
+class NoteForm(forms.Form):
+       title = forms.CharField(label="Title", widget=forms.TextInput(attrs={
+           "placeholder" : "State",
+           "autocomplete" : "off"
+       })) 
+       category = forms.CharField(label="Category", widget=forms.TextInput(attrs={
+           "placeholder" : "React",
+           "autocomplete" : "off"
+       }))
+       content = forms.CharField(label="Content", widget=forms.Textarea(attrs={
+           "placeholder" : "React is a js library",
+           "autocomplete" : "off"
+       }))
+    
 # Create your views here.
 # Main Page
 def index(request):
@@ -182,4 +198,24 @@ def logout_view(request):
 
 # For Creating note
 def create(request):
-    pass
+    if request.method == "GET":
+        return render(request, "notes/create.html", {
+            "form" : NoteForm()
+        })
+        
+    # for get method
+    form = NoteForm(request.POST)
+    
+    if form.is_valid():
+        category = form.cleaned_data.get("category")
+        title = form.cleaned_data.get("title")
+        content = form.cleaned_data.get("content")
+        
+        note = Note(owner=request.user, category=category, title=title, content=content)
+        note.save()
+        
+        return HttpResponseRedirect(reverse("notes:index"))
+    
+    return render(request, "notes/create.html", {
+        "form" : form
+    })

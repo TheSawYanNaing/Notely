@@ -1,0 +1,43 @@
+{% extends "notes/layout.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'notes/css/create.css' %}">
+{% endblock %}
+{% block title %}
+    Create
+{% endblock %}
+
+{% block body %}
+    <div class="create">
+        <h1>Create Note</h1>
+        <form action="{% url 'notes:create' %}" method="POST" class="create-form">
+            {% csrf_token %}
+            <div class="category">
+                {{form.category.label_tag}}
+                {{form.category}}
+                {% for error in form.category.errors %}
+                    <span>{{error}}</span>
+                {% endfor %}
+            </div>
+
+            <div class="title">
+                {{form.title.label_tag}}
+                {{form.title}}
+                {% for error in form.title.errors %}
+                    <span>{{error}}</span>
+                {% endfor %}
+            </div>
+
+            <div class="content">
+                {{form.content.label_tag}}
+                {{form.content}}
+                {% for error in form.content.errors %}
+                    <span>{{error}}</span>
+                {% endfor %}
+            </div>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+    <script src="{% static 'notes/js/create.js' %}"></script>
+{% endblock %}
