@@ -201,6 +201,8 @@ def logout_view(request):
 @decorators.login_required
 # For Creating note
 def create(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("notes:login"))
     if request.method == "GET":
         return render(request, "notes/create.html", {
             "form" : NoteForm()
