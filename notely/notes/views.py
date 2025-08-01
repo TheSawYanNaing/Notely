@@ -194,7 +194,10 @@ def login_view(request):
     })
 
 # for loggin out
+@decorators.login_required
 def logout_view(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("notes:login"))
     logout(request)
     return HttpResponseRedirect(reverse("notes:register"))
 
@@ -228,7 +231,8 @@ def create(request):
 @decorators.login_required
 # For viewsing category
 def note(request):
-    
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("notes:login"))
     # Getting all the category of user
     categories = Note.objects.filter(owner=request.user).values_list("category", flat=True).distinct()
     
@@ -239,6 +243,8 @@ def note(request):
 # for viewing actual title
 @decorators.login_required
 def category(request, category):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("notes:login"))
     noteLists = Note.objects.filter(owner=request.user, category=category)
     
     if not noteLists:
@@ -252,6 +258,8 @@ def category(request, category):
 # for viewing content of the note
 @decorators.login_required
 def content(request, category, title):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("notes:login"))
     note = Note.objects.filter(owner=request.user, category=category, title=title).first()
     
     if not note:
@@ -265,6 +273,8 @@ def content(request, category, title):
 # For editing
 @decorators.login_required
 def edit(request, category, title):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("notes:login"))
     if request.method == "GET":
         note = Note.objects.filter(owner=request.user, category=category, title=title).first()
         
@@ -289,6 +299,8 @@ def edit(request, category, title):
 # for deletiong
 @decorators.login_required
 def delete(request, category, title):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("notes:login"))
     
     note = Note.objects.filter(owner=request.user, category=category, title=title).first()
     
