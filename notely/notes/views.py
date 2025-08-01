@@ -194,14 +194,14 @@ def login_view(request):
     })
 
 # for loggin out
-@decorators.login_required
+\
 def logout_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("notes:login"))
     logout(request)
     return HttpResponseRedirect(reverse("notes:register"))
 
-@decorators.login_required
+
 # For Creating note
 def create(request):
     if not request.user.is_authenticated:
@@ -228,7 +228,7 @@ def create(request):
         "form" : form
     })
 
-@decorators.login_required
+
 # For viewsing category
 def note(request):
     if not request.user.is_authenticated:
@@ -241,7 +241,7 @@ def note(request):
     })
     
 # for viewing actual title
-@decorators.login_required
+
 def category(request, category):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("notes:login"))
@@ -256,7 +256,7 @@ def category(request, category):
     })
 
 # for viewing content of the note
-@decorators.login_required
+
 def content(request, category, title):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("notes:login"))
@@ -271,7 +271,7 @@ def content(request, category, title):
     })
     
 # For editing
-@decorators.login_required
+
 def edit(request, category, title):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("notes:login"))
@@ -297,7 +297,7 @@ def edit(request, category, title):
 
 
 # for deletiong
-@decorators.login_required
+
 def delete(request, category, title):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("notes:login"))
