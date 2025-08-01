@@ -27,12 +27,12 @@ form.addEventListener("submit", function(event)
 
     formData = new FormData(form) 
 
-    const email = formData.get("email")
+    const username = formData.get("username")
     const password = formData.get("password")
 
-    if (!email)
+    if (!username)
     {
-        addError("email", "Invalid Email")
+        addError("username", "Invalid username")
         return 
     }
 
