@@ -109,6 +109,10 @@
 .adding 
 {
     margin: 20px 0px;
+    opacity: 0;
+    position: relative;
+    top: -20px;
+    transition: all 0.5s linear;
 }
 .adding h2 
 {
@@ -157,6 +161,37 @@
 .steps > div 
 {
     width: 200px;
+}
+
+.create 
+{
+    position: relative;
+    left: -20px;
+}
+
+.organize
+{
+    position: relative;
+    top: 20px;
+}
+
+.access 
+{
+    position: relative;
+    left: 20px;
+}
+
+.create,.organize, .access
+{
+    transition: all 0.8s linear;
+}
+
+.usage-info 
+{
+    position: relative;
+    opacity: 0;
+    top: 30px;
+    transition: all 2s linear;
 }
 
 @media  screen and (min-width: 440px) {
