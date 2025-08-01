@@ -70,8 +70,8 @@ class RegisterForm(forms.Form):
 
 # For for loggin in
 class LoginForm(forms.Form):
-    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={
-        "placeholder" : "johndoe@gmail.com",
+    username = forms.CharField(label="Email", widget=forms.TextInput(attrs={
+        "placeholder" : "jhondoe",
         "autocomplete" : "off"
     }))
     
@@ -81,12 +81,13 @@ class LoginForm(forms.Form):
     }))
     
     # for validing email
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        if not (validate_email(email)):
-            raise forms.ValidationError("Invalid Email")
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
         
-        return email 
+        if not re.match(USERNAME_REGEX, username):
+            raise forms.ValidationError("Username must start with a letter and be 5 to 8 characters long. Only letters and numbers are allowed")
+
+        return username 
     
     # for valding password
     def clean_password(self):
@@ -146,7 +147,7 @@ def register(request):
         except IntegrityError:
             return render(request, "notes/register.html", {
                 "form" : form,
-                "message" : "Email already exists"
+                "message" : "Email or username already exists"
             })
         
         # logging the user in
@@ -173,11 +174,11 @@ def login_view(request):
     form = LoginForm(request.POST)
     
     if form.is_valid():
-        # Getting email and password
-        email = form.cleaned_data.get("email")
+        # Getting username and password
+        username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
         
-        user = authenticate(request, email=email, password=password)
+        user = authenticate(request, username=username, password=password)
         
         if user:
             login(request, user)
@@ -185,7 +186,7 @@ def login_view(request):
         
         return render(request, "notes/login.html", {
             "form" : form,
-            "message" : "Invalid email or password"
+            "message" : "Invalid Username of password"
         })
          
     return render(request, "notes/login.html", {
