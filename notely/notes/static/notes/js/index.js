@@ -17,18 +17,14 @@ document.addEventListener("DOMContentLoaded", function()
         const windowHeight = window.innerHeight
         const usageInfoRect = usageInfo.getBoundingClientRect()
 
-        console.log(windowHeight)
-        console.log(usageInfoRect)
         if (usageInfoRect.top > 0 && usageInfoRect.top < windowHeight - 100)
         {
-            console.log("Yes")
             usageInfo.style.opacity = "1"
             usageInfo.style.top = "0"
         }
 
         else 
         {
-            console.log("No")
             usageInfo.style.opacity = "0"
             usageInfo.style.top = "30px"
         }
